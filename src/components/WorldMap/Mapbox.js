@@ -30,12 +30,6 @@ const getPost = () => {
   dbRefObject.on('value', snap => alert(snap.val()));
 }
 
-// const cityList = [
-//   { name: 'America', location: [37.0902, -95.7129], picture: "https://image.freepik.com/free-photo/new-york-city-skyline_119101-67.jpg"},
-//   { name: 'China', location: [35.8617, 104.1954], picture: "https://image.freepik.com/free-photo/water-famous-architecture-finance-shanghai-tower_1417-1120.jpg" },
-//   { name: 'France', location: [48.8566, 2.3522], picture: "https://image.freepik.com/free-photo/paris-eiffel-tower-skyline-aerial-france_79295-14918.jpg"},
-//   { name: 'Korea', location: [37.5665, 126.9780], picture: "https://image.freepik.com/free-photo/sunrise-bukchon-hanok-village-seoul_40171-5.jpg" }
-// ]; //지도 좌표는 이렇게 찍어봤는데 큰 지도에서는 오차가 좀 있더라고요. 어찌하면 좋을까요.
 
 const Mapbox = () => {
   
@@ -65,13 +59,21 @@ const Mapbox = () => {
   const [selectedCity, setSelectedCity] = useState('');
   
   return (        
+    <>
+    <a className="survey1" href="https://forms.gle/6UzMiKpdmgxJt79Y6">
+      <div className="survey2">-----------------------------------------------------------------------------------------------------------------------------------------클릭해서 설문조사를 완료해주세요!--------------------------------------------------------------------------------------------------------------------------</div>
+    </a>
+
+
     <div className="Mapbox">
       
       <div className="logos">
         <img src={Logo2} alt="banner-image" className="logo2"/>
         <img src={Logo1} alt="banner-image" className="logo1"/>
       </div>
-      
+
+
+
       <div class="mainpage">
         <img src={searchtext} alt="banner-image" className="search-text"/>
         <img src={searchbar} alt="banner-image" className="search-bar"/>
@@ -142,6 +144,7 @@ const Mapbox = () => {
         }
       </ReactMapGL> */}
     </div>
+  </>
   );
 };
 

@@ -2,11 +2,26 @@
     background-color: white;
 }
 
+#survey23{
+    width: 150px;
+    font-size: 20px;
+    width: auto;
 
+}
 
+.survey1{
+    text-align: center;
+}
+
+.survey2{
+    width: 150px;
+    font-size: 20px;
+    width: auto;
+    text-align: center;
+}
 
 .logos{
-    margin-left:65%
+    margin-left:65%;
 }
 
 
