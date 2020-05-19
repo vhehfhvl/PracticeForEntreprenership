@@ -76,11 +76,11 @@ class Router extends Component {
               <MyPageEdit user={user} />
             )} />
 
-            <Route path="/writepost" exact render={() => (
+            {/* <Route path="/writepost" exact render={() => (
               <WritePost user={user} />
-            )} />            
+            )} />             */}
 
-            {/* <Route path="/writePost" exact component={WritePost} /> */}
+            <Route path="/writePost" exact component={WritePost} />
 
             <Route path="/viewpost" exact component={ViewPost} />
 

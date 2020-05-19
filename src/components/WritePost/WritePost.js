@@ -27,22 +27,26 @@ const WritePost = (props) =>{
   const [text, setText] = useState(null);
   const [newKey, setNewKey] = useState('');
   const [newFile, setNewFile] = useState(null);
+
+  // const { user } = props
   const { user } = props.location.state;
-  const { country } = props.location.state;
+  const { level } = props.location.state;
+
+
 
   const sendPost = () => {
 
-    if(!newFile){
-      alert('사진을 올려주세요')
-      return;
-    }
+    // if(!newFile){
+    //   alert('사진을 올려주세요')
+    //   return;
+    // }
 
     //save data to realtime database for post DB
-    const newPostKey = firebase.database().ref().child('postlist').child(`${country}`).push().key;
+    const newPostKey = firebase.database().ref().child('postlist').child(`${level}`).push().key;
 
     const updates_postDB = {};
 
-    updates_postDB[`/postlist/${country}/` + newPostKey] = {
+    updates_postDB[`/postlist/${level}/` + newPostKey] = {
       title : `${title}`,
       text :`${text}`,
       key :`${newPostKey}`,
@@ -71,25 +75,24 @@ const WritePost = (props) =>{
     submitText.reset();
 
     //image upload
-    const storageRef = firebase.storage().ref();
-    const imageRef = storageRef.child(`${newPostKey}.jpg`);
-    if(newFile){
-      imageRef.put(newFile).then(function(snapshot) {
-        console.log('Uploaded a file!');
-        });    
-    }
+    // const storageRef = firebase.storage().ref();
+    // const imageRef = storageRef.child(`${newPostKey}.jpg`);
+    // if(newFile){
+    //   imageRef.put(newFile).then(function(snapshot) {
+    //     console.log('Uploaded a file!');
+    //     });    
+    // }
 
 
     return firebase.database().ref().update(updates_postDB)&&firebase.database().ref().update(updates_userDB);
   }
 
-      //uploadImage();
-  useEffect(() => {
-
-    document.getElementById("input").addEventListener('change', function(evt) {
-      setNewFile(evt.target.files[0])
-    })
-	}, []);
+  //uploadImage();
+  // useEffect(() => {
+  //   document.getElementById("input").addEventListener('change', function(evt) {
+  //     setNewFile(evt.target.files[0])
+  //   })
+	// }, []);
 
     return (
       <div>
@@ -121,17 +124,17 @@ const WritePost = (props) =>{
             </Grid>
           </Grid>
         </form>
-        <Link to ={`/posts/${country}/`}>
+        <Link to ={`/posts/${level}/`}>
           <Button fullWidth onClick={()=>sendPost()}>
             글작성하기
           </Button>
         </Link>
-        <Link to = {`/posts/${country}/`} >
+        <Link to = {`/posts/${level}/`} >
           <Button fullWidth>
             뒤로가기
           </Button>
         </Link>
-        <input type="file" id="input"></input>
+        {/* <input type="file" id="input"></input> */}
 
       </div>
     )

@@ -50,42 +50,42 @@ const LevelListContent = (props) => {
   const [searchValue, setSearchValue] = useState('');
   const [changedPostList, setChangedPostList] = useState('');
 
-  // const onSort = (e, standard = 'title') => {
-  //    e.preventDefault();
-  //    const sortResult = []
-  //    const queryUrl = `postlist/${country}`
-  //    const query = firebase.database().ref(queryUrl);
-  //    query.orderByChild(standard)
-  //      .once('value', function(snapshot) {
-  //        snapshot.forEach(function(childSnapshot) {
-  //          sortResult.push(childSnapshot.val());
-  //      })
-  //      setChangedPostList(sortResult.reverse());
-  //    });
-  //  }
+  const onSort = (e, standard = 'title') => {
+     e.preventDefault();
+     const sortResult = []
+     const queryUrl = `postlist/${level}`
+     const query = firebase.database().ref(queryUrl);
+     query.orderByChild(standard)
+       .once('value', function(snapshot) {
+         snapshot.forEach(function(childSnapshot) {
+           sortResult.push(childSnapshot.val());
+       })
+       setChangedPostList(sortResult.reverse());
+     });
+   }
 
 
-  // const onChangeSearchValue = (e) => setSearchValue(e.target.value);
-  // const onSearch = (e) => {
-  //   e.preventDefault();
-  //   const searchResult = postList.filter(post => post.title.indexOf(searchValue) !== -1);
-  //   setChangedPostList(searchResult);
-  //   setSearchValue('');
-  // }
+  const onChangeSearchValue = (e) => setSearchValue(e.target.value);
+  const onSearch = (e) => {
+    e.preventDefault();
+    const searchResult = postList.filter(post => post.title.indexOf(searchValue) !== -1);
+    setChangedPostList(searchResult);
+    setSearchValue('');
+  }
 
-  // useEffect(() => {
-  //   setPostList([]);
+  useEffect(() => {
+    setPostList([]);
 
-  //   const query = firebase.database().ref(`postlist/${country}/`);
-  //   query.once("value")
-  //     .then(function(snapshot) {
-  //       snapshot.forEach(function(childSnapshot) {
-  //         postList.push(childSnapshot.val());
-  //     })
+    const query = firebase.database().ref(`postlist/${level}/`);
+    query.once("value")
+      .then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          postList.push(childSnapshot.val());
+      })
 
-  //     setPostList(postList);
-  //   })
-  // }, []);
+      setPostList(postList);
+    })
+  }, []);
 
   return (
     <React.Fragment>
@@ -98,9 +98,9 @@ const LevelListContent = (props) => {
           </Container>
         </div>
         <ButtonGroup>
-          {/* <Button variant="outlined" onClick={(e)=> onSort(e, 'title')}>제목순</Button>
+          <Button variant="outlined" onClick={(e)=> onSort(e, 'title')}>제목순</Button>
           <Button variant="outlined" onClick={(e)=> onSort(e, 'date')}>최신순</Button>
-          <Button variant="outlined" onClick={(e)=> onSort(e, 'like')}>추천순</Button> */}
+          <Button variant="outlined" onClick={(e)=> onSort(e, 'like')}>추천순</Button>
         </ButtonGroup>
         <Container className={classes.cardGrid}>
           <Grid container spacing={4}>
@@ -113,17 +113,17 @@ const LevelListContent = (props) => {
             ))}
           </Grid>
         </Container>
-        {/* <form className={classes.inputArea} onSubmit={onSearch}>
+        <form className={classes.inputArea} onSubmit={onSearch}>
           <TextField className={classes.textInput} variant="outlined" value={searchValue} onChange={onChangeSearchValue}/>
           <IconButton type="submit" className={classes.iconButton} aria-label="search" onSubmit={onSearch}>
             <SearchIcon />
           </IconButton>
-        </form> */}
+        </form>
       </main>
 
 
 
-      {/* <Link to={{
+      <Link to={{
         pathname: "/writePost/",
         state: {
           level: level,
@@ -136,7 +136,7 @@ const LevelListContent = (props) => {
         <Button>
             글 작성하기
         </Button>
-      </Link> */}
+      </Link>
 
 
     </React.Fragment>

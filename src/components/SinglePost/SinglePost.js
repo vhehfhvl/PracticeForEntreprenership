@@ -37,13 +37,14 @@ const SinglePost = (props) => {
   const { classes } = props;
   const { post } = props;
   const { user } = props;
-  const { country } = props;
+  const { level } = props;
   const [imageLink, setImageLink] = useState('');
 
   useEffect(() => {
 		const storageRef = firebase.storage().ref();
-    storageRef.child(`${post.key}.jpg`).getDownloadURL()
-      .then(function(url) {
+    //storageRef.child(`${post.key}.jpg`).getDownloadURL()
+    storageRef.child(`${post.userid}.jpg`).getDownloadURL()
+    .then(function(url) {
         // document.querySelector('img').src = imageLink;
         setImageLink(url)
     }).catch(function(error) {
@@ -58,7 +59,8 @@ const SinglePost = (props) => {
         state: {
           post: post,
           user: user.uid,
-          country: country,
+          userEmail: user.email,
+          level: level,
         }
       }}>
         <Card className={classes.postCard}>

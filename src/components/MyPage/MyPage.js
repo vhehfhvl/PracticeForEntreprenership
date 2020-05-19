@@ -6,6 +6,10 @@ import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+
+
 import { Link } from 'react-router-dom';
 import SinglePost from '../SinglePost'
 
@@ -22,7 +26,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
 import 'firebase/database';
-import { Button, ButtonGroup } from '@material-ui/core';
+import { Button, ButtonGroup, CardContent } from '@material-ui/core';
 
 
 firebase.analytics();
@@ -53,11 +57,20 @@ const MyPage = (props) => {
   const { classes } = props;
 
   const { user } = props;
-  const [postList, setPostList] = useState([]);
+  const [followerList, setFollowerList] = useState([]);
 
   const [searchValue, setSearchValue] = useState('');
 
   const [changedPostList, setChangedPostList] = useState('');
+
+  const [name, setName] = useState('');
+  const [level, setLevel] = useState('');
+  const [area, setArea] = useState('');
+  const [text, setText] = useState('');
+  const [email, setEmail] = useState('');
+  
+
+
 
 //   const onSort = (e, standard = 'title') => {
 //      e.preventDefault();
@@ -80,36 +93,120 @@ const MyPage = (props) => {
 //     setSearchValue('');
 //   }
 
-//   useEffect(() => {
-//     setPostList([]);
+  useEffect(() => {
+    setFollowerList([]);
 
-//     const query = firebase.database().ref(`postlist/${country}/`);
-//     query.once("value")
-//       .then(function(snapshot) {
-//         snapshot.forEach(function(childSnapshot) {
-//           postList.push(childSnapshot.val());
-//       })
+    const query2 = firebase.database().ref(`users/${user.uid}/followers/`);
 
-//       setPostList(postList);
-//     })
-//   }, []);
+    const query = firebase.database().ref(`users/${user.uid}/info/`);
+
+
+    query2.once("value")
+				.then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          followerList.push(childSnapshot.val());
+        })
+        setFollowerList(followerList);
+		})
+
+
+    query.once("value")
+      .then(function(snapshot) {
+
+        setName(snapshot.val().name)
+        setArea(snapshot.val().area)
+        setText(snapshot.val().text)
+        setEmail(snapshot.val().email)
+              
+      })
+  }, []);
+
+  useEffect(() => {
+		const storageRef = firebase.storage().ref();
+		//storageRef.child(`${post.key}.jpg`).getDownloadURL().then(function(url) {
+		storageRef.child(`${user.uid}.jpg`).getDownloadURL().then(function(url) {
+			const imageLink = url;
+			document.querySelector('img').src = imageLink;
+  		}).catch(function(error) {
+		});
+
+	  }, []);
+    
+  const accept = () => {
+    alert('승낙되었습니다!')
+    // firebase.database().ref().child(`users`).child(`${userUid}`).child(`follows`).update({ [`${post.userid}`]: `${post.useremail}`});
+
+
+    //firebase.database().ref().child(`users`).child(`${user.uid}`).child(`matched`).update({ [`${userUid}`]: `${userEmail}`});
+  }
+
+  const reject = () => {
+
+  }
 
   return (
     <React.Fragment>
       <main>
         <div className={classes.postHeader}>
-          <Container align="center">
-            {/* <Typography component="h1" variant="h5" align="center" color="textPrimary">
-              {user.email}
-            </Typography> */}
-            <img src={nameCard} alt="banner-image" className="namecard"/>
+          {/* <Container align="center"> */}
+          {/* <img align="left" src="imageLink" height="250px" width="400px" align="center" style={{display:"block", margin: "0 auto"}}/>  */}
+
+          <Container>
+            <img align="left" src="imageLink" height="500px" width="400px" style={{display:"block", margin: "0 auto"}}/> 
+
+            <Card>
+
+              <CardHeader title="이름"/>
+              <CardContent>{name}</CardContent>
+
+              <CardHeader title="이메일"/>
+              <CardContent>{email}</CardContent>
+            
+              <CardHeader title="분야"/>
+              <CardContent>{area}</CardContent>
+
+              <CardHeader title="자기소개"/>
+              <CardContent className="mypage-introduce">{text}</CardContent>
+            </Card>
+            
+            {/* <Typography>이름: {name}</Typography>
+            <Typography>이메일: {email}</Typography>
+            <Typography>분야: {area}</Typography> */}
+
+            {/* <Grid>
+              <Typography>자기소개</Typography>
+              <div>{text}</div>
+            </Grid> */}
+            {/* <img src={nameCard} alt="banner-image" className="namecard"/>
             <img src={request} alt="banner-image" className="request"/>
-            <img src={matchedpeople} alt="banner-image" className="matchedpeople"/>
+            <img src={matchedpeople} alt="banner-image" className="matchedpeople"/> */}
 
           </Container>
         </div>
 
+        <Container align="center">
+            <Card>
+              <CardHeader title="요청"/>
+                <CardContent align="center">
+                  {followerList &&
+                     followerList.map(post => (
+                      <div>
+                        <span>{post}</span>
+                        <ButtonGroup >
+                          <Button onClick={()=>accept()} id={`${post}`} >승낙</Button>
+                          <Button onClick={()=>reject()}>거절</Button>    
+                        </ButtonGroup>
+                      </div>
+                  ))}
+                </CardContent>
+            </Card>
 
+            <Card>
+              <CardHeader title="매칭된 사람"/>
+              <CardContent>김우영</CardContent>
+            </Card>
+
+        </Container>
 
 
 

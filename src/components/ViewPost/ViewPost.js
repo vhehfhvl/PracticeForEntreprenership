@@ -53,8 +53,10 @@ const ViewPost = (props) => {
   //const [isDeleted, setIsDeleted] = useState('');
   const { classes } = props;
   const userUid = props.location.state.user;
+  const userEmail = props.location.state.userEmail;
   const { post } = props.location.state;
-  const { country } = props.location.state;
+  //const { country } = props.location.state;
+  const { level } = props.location.state; 
   const [newReply, setNewReply] = useState('');
   const [replyList, setReplyLIst] = useState('');
   const [commentArray, setCommentArray] = useState([]);
@@ -70,7 +72,7 @@ const ViewPost = (props) => {
 
 	useEffect(() => {
 
-			firebase.database().ref().child(`postlist`).child(`${country}`).child(`${post.key}`).child('comment').on('value', function(snapshot) {
+			firebase.database().ref().child(`postlist`).child(`${level}`).child(`${post.key}`).child('comment').on('value', function(snapshot) {
 				setCommentArray(commentArray=>[]);
 				Object.values(snapshot.val()).map(comment => (setCommentArray(commentArray => [...commentArray, comment])));
 			});
@@ -79,7 +81,8 @@ const ViewPost = (props) => {
 	  //image upload from database
 	useEffect(() => {
 		const storageRef = firebase.storage().ref();
-		storageRef.child(`${post.key}.jpg`).getDownloadURL().then(function(url) {
+		//storageRef.child(`${post.key}.jpg`).getDownloadURL().then(function(url) {
+		storageRef.child(`${post.userid}.jpg`).getDownloadURL().then(function(url) {
 			const imageLink = url;
 			document.querySelector('img').src = imageLink;
 		}).catch(function(error) {
@@ -90,14 +93,16 @@ const ViewPost = (props) => {
 
   	const addComment = (e) =>{
 		e.preventDefault();
-		firebase.database().ref().child(`postlist`).child(`${country}`).child(`${post.key}`).child('comment').update({ [Date(Date.now()).toString()] : `${newReply}` });
+		//firebase.database().ref().child(`postlist`).child(`${country}`).child(`${post.key}`).child('comment').update({ [Date(Date.now()).toString()] : `${newReply}` });
+		firebase.database().ref().child(`postlist`).child(`${level}`).child(`${post.key}`).child('comment').update({ [Date(Date.now()).toString()] : `${newReply}` });
 		document.getElementById('comment-form').reset();
 	}
 
-  const like = () => {
-		firebase.database().ref().child(`postlist`).child(`${country}`).child(`${post.key}`).once("value", function(childSnap){
+	const like = () => {
+		//firebase.database().ref().child(`postlist`).child(`${country}`).child(`${post.key}`).once("value", function(childSnap){
+		firebase.database().ref().child(`postlist`).child(`${level}`).child(`${post.key}`).once("value", function(childSnap){
 			const updatedLike=childSnap.val().like + 1;
-			firebase.database().ref().child(`postlist`).child(`${country}`).child(`${post.key}`).update({ like: updatedLike});
+			firebase.database().ref().child(`postlist`).child(`${level}`).child(`${post.key}`).update({ like: updatedLike});
 			firebase.database().ref().child(`users`).child(`${childSnap.val().userid}`).child('posts').child(`${post.key}`).update({ like: updatedLike});
 		})
 
@@ -105,11 +110,13 @@ const ViewPost = (props) => {
 
 	}
 
-  const follow = () => {
-		firebase.database().ref().child(`users`).child(`${userUid}`).child(`follows`).update({ [`${post.userid}`]: `${post.useremail}`});
-		console.log(`${userUid}`);
-		console.log(`${post.useremail}`);
-		console.log('1');
+	const follow = () => {
+		alert('신청되었습니다!')
+		// firebase.database().ref().child(`users`).child(`${userUid}`).child(`follows`).update({ [`${post.userid}`]: `${post.useremail}`});
+		firebase.database().ref().child(`users`).child(`${post.userid}`).child(`followers`).update({ [`${userUid}`]: `${userEmail}`});
+		// console.log(`${userUid}`);
+		// console.log(`${post.useremail}`);
+		// console.log('1');
 	}
 
 
@@ -136,7 +143,7 @@ const ViewPost = (props) => {
 			<main style={{align: 'center'}}>
   			<Container maxWidth={false} className={classes.postHeader}>
   				<Typography component="h1" variant="h5" align="center" color="textPrimary">
-						<Button href = {`/posts/${country}`} size="large" varaint = "text" >{country} 여행 게시판</Button>
+						<Button href = {`/posts/${level}`} size="large" varaint = "text" >{level} 게시판</Button>
   				</Typography>
   			</Container>
   			<Container className={classes.card}>
@@ -146,12 +153,12 @@ const ViewPost = (props) => {
   						title = {post.title}
   						subheader={`작성자: ${post.useremail} | 작성시간: ${moment.unix(post.date / 1000).format('YYYY년 MM월 DD일 HH:mm')}`}
   					/>
-					<img src="imageLink" height="450px" width="800px" align="center" style={{display:"block", margin: "0 auto"}}/> 
+					<img src="imageLink" height="250px" width="400px" align="center" style={{display:"block", margin: "0 auto"}}/> 
   					<CardContent align = 'right'>
   						<ButtonGroup >
   							<Button onClick={()=>like()} id="like-button" >Like</Button>
-  							<Button onClick={()=>follow()}>Follow</Button>
-							<Link to={{pathname: `/posts/${country}`}}>
+  							<Button onClick={()=>follow()}>신청</Button>
+							<Link to={{pathname: `/posts/${level}`}}>
 							{/*<Button onClick={()=>deletePost()}>Delete</Button>*/}
 							</Link>
 						</ButtonGroup>

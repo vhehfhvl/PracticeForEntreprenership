@@ -76,39 +76,12 @@ const MyPageEdit = (props) => {
 
   const onEdit = () => {
 
-    // if(!newFile){
-    //   alert('사진을 올려주세요')
-    //   return;
-    // }
+    if(!newFile){
+      alert('당신의 사진을 올려주세요!')
+      return;
+    }
 
-    //save data to realtime database for post DB
-    // const newPostKey = firebase.database().ref().child('postlist').child(`${country}`).push().key;
-    const newPostKey = firebase.database().ref().key;
-    // const updates_postDB = {};
-
-    // updates_postDB[`/postlist/${country}/` + newPostKey] = {
-    //   title : `${title}`,
-    //   text :`${text}`,
-    //   key :`${newPostKey}`,
-    //   userid : `${user.uid}`,
-    //   date : moment().valueOf(),
-    //   like : 0,
-    //   comment : {0: ' '},
-    //   useremail : `${user.email}`
-    // }
-
-    //save data to realtime database for User DB
-    // const updates_userDB = {};
-    // updates_userDB[`/users/${user.uid}/posts/` + newPostKey] = {
-    //   title : `${title}`,
-    //   text :`${text}`,
-    //   key :`${newPostKey}`,
-    //   userid : `${user.uid}`,
-    //   date : moment().valueOf(),
-    //   like : 0,
-    //   comment : null,
-    //   useremail : `${user.email}`
-    // }
+    //const newPostKey = firebase.database().ref().key;
 
     const updates_userDB = {};
     updates_userDB[`/users/${user.uid}/info`] = {
@@ -117,37 +90,39 @@ const MyPageEdit = (props) => {
       email :`${user.email}`,
       userid : `${user.uid}`,
       text : `${text}`,
-      key :`${newPostKey}`,
+      //key :`${newPostKey}`,  //+using this for uploaded image??
       area :`${area}`,
       date : moment().valueOf(),
     }
 
 
-    setNewKey(newPostKey);
+    //setNewKey(newPostKey);
     let submitText = document.getElementById("post-form");
     submitText.reset();
 
     //image upload
-    // const storageRef = firebase.storage().ref();
-    // const imageRef = storageRef.child(`${newPostKey}.jpg`);
-    // if(newFile){
-    //   imageRef.put(newFile).then(function(snapshot) {
-    //     console.log('Uploaded a file!');
-    //     });    
-    // }
+    const storageRef = firebase.storage().ref();
+    //const imageRef = storageRef.child(`${newPostKey}.jpg`);
+    const imageRef = storageRef.child(`${user.uid}.jpg`);
+
+    
+    if(newFile){
+      imageRef.put(newFile).then(function(snapshot) {
+        console.log('Uploaded a file!');
+        });    
+    }
 
 
     // return firebase.database().ref().update(updates_postDB)&&firebase.database().ref().update(updates_userDB);
     return firebase.database().ref().update(updates_userDB);
   }
 
-  // uploadImage();
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   document.getElementById("input").addEventListener('change', function(evt) {
-  //     setNewFile(evt.target.files[0])
-  //   })
-	// }, []);
+    document.getElementById("input").addEventListener('change', function(evt) {
+      setNewFile(evt.target.files[0])
+    })
+	}, []);
 
 
   return (
@@ -159,8 +134,8 @@ const MyPageEdit = (props) => {
             <Grid container spacing={4}>
               <Grid item xs={12}>
                 <TextField
+                  className="mypageedit-name"
                   onChange={(e) => setName(e.target.value)}
-                  fullWidth
                   id="travelTitle"
                   label="이름"
                   margin="normal"
@@ -169,28 +144,27 @@ const MyPageEdit = (props) => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  onChange={(e) => setText(e.target.value)}
-                  fullWidth
+                  className="mypageedit-area"
+                  onChange={(e) => setArea(e.target.value)}
                   id="travelText"
-                  label="글"
+                  label="분야"
                   margin="normal"
+                  placeholder="ex.통계학전문가"
                   multiline
                   required
-                  rows={20}
-                  rowsMax={100}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  onChange={(e) => setArea(e.target.value)}
-                  fullWidth
+                  className="mypageedit-introduce"
+                  onChange={(e) => setText(e.target.value)}
                   id="travelText"
-                  label="분야"
+                  label="자기소개"
                   margin="normal"
                   multiline
                   required
-                  rows={20}
-                  rowsMax={100}
+                  rows = {10}
+                  rowsMax = {100}
                 />
               </Grid>
             </Grid>
@@ -209,7 +183,7 @@ const MyPageEdit = (props) => {
               뒤로가기
             </Button>
           </Link> */}
-          {/* <input type="file" id="input"></input> */}
+          <input type="file" id="input"></input>
 
         </div>
 
@@ -218,25 +192,23 @@ const MyPageEdit = (props) => {
 
 
 
-        <div className={classes.postHeader}>
+        {/* <div className={classes.postHeader}>
           <Container align="center">
-            {/* <Typography component="h1" variant="h5" align="center" color="textPrimary">
+            <Typography component="h1" variant="h5" align="center" color="textPrimary">
               {user.email}
-            </Typography> */}
+            </Typography>
             <img src={nameCard} alt="banner-image" className="namecard"/>
             <img src={request} alt="banner-image" className="request"/>
             <img src={matchedpeople} alt="banner-image" className="matchedpeople"/>
 
           </Container>
-        </div>
+        </div> */}
 
 
 
 
 
       </main>
-
-
 
 
 
