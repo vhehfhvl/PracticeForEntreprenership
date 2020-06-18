@@ -112,11 +112,13 @@ const MyPage = (props) => {
 
     query.once("value")
       .then(function(snapshot) {
-
-        setName(snapshot.val().name)
-        setArea(snapshot.val().area)
-        setText(snapshot.val().text)
-        setEmail(snapshot.val().email)
+        if(snapshot.val()){
+          setName(snapshot.val().name)
+          setArea(snapshot.val().area)
+          setText(snapshot.val().text)
+          setEmail(snapshot.val().email)
+  
+        }
               
       })
   }, []);
@@ -129,8 +131,7 @@ const MyPage = (props) => {
 			document.querySelector('img').src = imageLink;
   		}).catch(function(error) {
 		});
-
-	  }, []);
+  }, []);
     
   const accept = () => {
     alert('승낙되었습니다!')

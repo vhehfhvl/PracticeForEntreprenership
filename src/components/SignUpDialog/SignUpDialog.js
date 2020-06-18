@@ -79,7 +79,6 @@ class SignUpDialog extends Component {
         errors: errors
       });
     } else {
-      alert('설문조사 해주시면 감사합니다: https://forms.gle/6UzMiKpdmgxJt79Y6')
 
       this.setState({
         performingAction: true,
