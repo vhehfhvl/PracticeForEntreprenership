@@ -109,7 +109,6 @@ class Bar extends Component {
     const {
       onSignUpClick,
       onSignInClick,
-      onFollowingUsersClick
     } = this.props;
 
     const { menu } = this.state;
@@ -131,9 +130,7 @@ class Bar extends Component {
                 Mypage
               </Button>
 
-              <IconButton aria-label="followingUsers" color="inherit" disabled={performingAction} onClick={onFollowingUsersClick}>
-                <FaceIcon/>
-              </IconButton>
+
               <IconButton color="inherit" disabled={performingAction} onClick={this.openMenu}>
                 {this.getAvatar()}
               </IconButton>
