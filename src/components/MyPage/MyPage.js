@@ -71,28 +71,6 @@ const MyPage = (props) => {
   
 
 
-
-//   const onSort = (e, standard = 'title') => {
-//      e.preventDefault();
-//      const sortResult = []
-//      const queryUrl = `postlist/${country}`
-//      const query = firebase.database().ref(queryUrl);
-//      query.orderByChild(standard)
-//        .once('value', function(snapshot) {
-//          snapshot.forEach(function(childSnapshot) {
-//            sortResult.push(childSnapshot.val());
-//        })
-//        setChangedPostList(sortResult.reverse());
-//      });
-//    }
-//   const onChangeSearchValue = (e) => setSearchValue(e.target.value);
-//   const onSearch = (e) => {
-//     e.preventDefault();
-//     const searchResult = postList.filter(post => post.title.indexOf(searchValue) !== -1);
-//     setChangedPostList(searchResult);
-//     setSearchValue('');
-//   }
-
   useEffect(() => {
     setFollowerList([]);
 
@@ -135,10 +113,6 @@ const MyPage = (props) => {
     
   const accept = () => {
     alert('승낙되었습니다!')
-    // firebase.database().ref().child(`users`).child(`${userUid}`).child(`follows`).update({ [`${post.userid}`]: `${post.useremail}`});
-
-
-    //firebase.database().ref().child(`users`).child(`${user.uid}`).child(`matched`).update({ [`${userUid}`]: `${userEmail}`});
   }
 
   const reject = () => {
@@ -149,8 +123,6 @@ const MyPage = (props) => {
     <React.Fragment>
       <main>
         <div className={classes.postHeader}>
-          {/* <Container align="center"> */}
-          {/* <img align="left" src="imageLink" height="250px" width="400px" align="center" style={{display:"block", margin: "0 auto"}}/>  */}
 
           <Container>
             <img align="left" src="imageLink" height="500px" width="400px" style={{display:"block", margin: "0 auto"}}/> 
@@ -160,7 +132,7 @@ const MyPage = (props) => {
               <CardHeader title="이름"/>
               <CardContent>{name}</CardContent>
 
-              <CardHeader title="이메일"/>
+              <CardHeader title="email"/>
               <CardContent>{email}</CardContent>
             
               <CardHeader title="분야"/>
@@ -170,17 +142,7 @@ const MyPage = (props) => {
               <CardContent className="mypage-introduce">{text}</CardContent>
             </Card>
             
-            {/* <Typography>이름: {name}</Typography>
-            <Typography>이메일: {email}</Typography>
-            <Typography>분야: {area}</Typography> */}
 
-            {/* <Grid>
-              <Typography>자기소개</Typography>
-              <div>{text}</div>
-            </Grid> */}
-            {/* <img src={nameCard} alt="banner-image" className="namecard"/>
-            <img src={request} alt="banner-image" className="request"/>
-            <img src={matchedpeople} alt="banner-image" className="matchedpeople"/> */}
 
           </Container>
         </div>
