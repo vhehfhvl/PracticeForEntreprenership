@@ -136,7 +136,7 @@ class Bar extends Component {
               </IconButton>
               <Menu anchorEl={menu.anchorEl} open={Boolean(menu.anchorEl)} onClose={this.closeMenu}>
                 <MenuItem disabled={performingAction} onClick={this.handleAboutClick}>About</MenuItem>
-                <MenuItem disabled={performingAction} onClick={this.handleSettingsClick}>Settings</MenuItem>
+                <MenuItem disabled={performingAction} onClick={this.handleSettingsClick}>Setting</MenuItem>
                 <MenuItem disabled={performingAction} onClick={this.handleSignOutClick}>Sign out</MenuItem>
               </Menu>
             </>
